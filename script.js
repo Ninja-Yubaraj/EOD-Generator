@@ -19,9 +19,8 @@ function getCurrentTime() {
 function copyCurrentTime() {
     const currentTime = getCurrentTime();
     navigator.clipboard.writeText(currentTime).then(() => {
-        // Show confirmation text
         showConfirmation(`Current time (${currentTime}) copied!`);
-    }).catch(err => {
+    }).catch(() => {
         showConfirmation("Failed to copy time.", true);
     });
 }
@@ -68,6 +67,19 @@ function calculateDuration(startTime, endTime) {
     return `${String(durationHours).padStart(2, '0')}:${String(durationMinutes).padStart(2, '0')}`;
 }
 
+// Function to handle input blur: update style after user input
+function handleInputBlur(event) {
+    const input = event.target;
+    const value = input.value.trim();
+
+    if (value) {
+        const cell = input.parentElement;
+        cell.textContent = value;
+        cell.style.textAlign = "center";
+        cell.style.fontWeight = "bold";
+    }
+}
+
 // Function to add a new row to the table
 function addRow() {
     const tableBody = document.getElementById("eodTableBody");
@@ -75,10 +87,10 @@ function addRow() {
 
     newRow.innerHTML = `
         <td>${getCurrentDate()}</td>
-        <td><input type="text" placeholder="Start Time (HH:MM)" oninput="updateDuration(this)"></td>
-        <td><input type="text" placeholder="End Time (HH:MM)" oninput="updateDuration(this)"></td>
+        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)"></td>
+        <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)"></td>
         <td class="duration"></td>
-        <td><input type="text" placeholder="Project"></td>
+        <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)"></td>
         <td>
             <input type="text" placeholder="Task 1">
         </td>

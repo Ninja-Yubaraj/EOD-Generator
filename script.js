@@ -79,6 +79,12 @@ function handleInputBlur(event) {
 
         // Add click listener to make it editable again
         cell.onclick = () => makeCellEditable(cell, value);
+
+        // Recalculate duration if applicable
+        const row = cell.parentElement;
+        if (cell.cellIndex === 1 || cell.cellIndex === 2) { // Start Time or End Time column
+            updateDuration(row);
+        }
     }
 }
 
@@ -96,8 +102,8 @@ function addRow() {
 
     newRow.innerHTML = `
         <td>${getCurrentDate()}</td>
-        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)" style="text-align: center;"></td>
-        <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)" style="text-align: center;"></td>
+        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;"></td>
+        <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td class="duration"></td>
         <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td>
@@ -130,10 +136,9 @@ function addTask() {
 }
 
 // Function to update duration based on start and end times
-function updateDuration(inputElement) {
-    const row = inputElement.closest("tr");
-    const startTime = row.querySelector("td:nth-child(2) input").value;
-    const endTime = row.querySelector("td:nth-child(3) input").value;
+function updateDuration(row) {
+    const startTime = row.querySelector("td:nth-child(2)").textContent.trim();
+    const endTime = row.querySelector("td:nth-child(3)").textContent.trim();
     const durationCell = row.querySelector(".duration");
 
     durationCell.textContent = calculateDuration(startTime, endTime);

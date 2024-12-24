@@ -7,6 +7,46 @@ function getCurrentDate() {
     return `${day}/${month}/${year}`;
 }
 
+// Function to get the current time in HH:MM format
+function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
+
+// Function to copy the current time to the clipboard
+function copyCurrentTime() {
+    const currentTime = getCurrentTime();
+    navigator.clipboard.writeText(currentTime).then(() => {
+        // Show confirmation text
+        showConfirmation(`Current time (${currentTime}) copied!`);
+    }).catch(err => {
+        showConfirmation("Failed to copy time.", true);
+    });
+}
+
+// Function to show confirmation text temporarily
+function showConfirmation(message, isError = false) {
+    const confirmation = document.createElement("div");
+    confirmation.textContent = message;
+    confirmation.style.position = "fixed";
+    confirmation.style.bottom = "20px";
+    confirmation.style.right = "20px";
+    confirmation.style.padding = "10px 15px";
+    confirmation.style.backgroundColor = isError ? "red" : "green";
+    confirmation.style.color = "white";
+    confirmation.style.borderRadius = "5px";
+    confirmation.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.2)";
+    confirmation.style.zIndex = "1000";
+
+    document.body.appendChild(confirmation);
+
+    setTimeout(() => {
+        confirmation.remove();
+    }, 2000); // Message disappears after 2 seconds
+}
+
 // Function to calculate duration in hours (24-hour format)
 function calculateDuration(startTime, endTime) {
     if (!startTime || !endTime) return "";
@@ -53,7 +93,7 @@ function addTask() {
     const lastRow = tableBody.lastElementChild;
 
     if (!lastRow) {
-        alert("Add a row first!");
+        showConfirmation("Add a row first!", true);
         return;
     }
 

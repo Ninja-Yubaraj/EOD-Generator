@@ -67,7 +67,7 @@ function calculateDuration(startTime, endTime) {
     return `${String(durationHours).padStart(2, '0')}:${String(durationMinutes).padStart(2, '0')}`;
 }
 
-// Function to handle input blur: update style after user input
+// Function to handle input blur: convert input to plain text
 function handleInputBlur(event) {
     const input = event.target;
     const value = input.value.trim();
@@ -76,8 +76,17 @@ function handleInputBlur(event) {
         const cell = input.parentElement;
         cell.textContent = value;
         cell.style.textAlign = "center";
-        cell.style.fontWeight = "bold";
+
+        // Add click listener to make it editable again
+        cell.onclick = () => makeCellEditable(cell, value);
     }
+}
+
+// Function to make a cell editable again
+function makeCellEditable(cell, currentValue) {
+    cell.innerHTML = `<input type="text" value="${currentValue}" onblur="handleInputBlur(event)" style="text-align: center;">`;
+    const input = cell.querySelector("input");
+    input.focus();
 }
 
 // Function to add a new row to the table
@@ -87,10 +96,10 @@ function addRow() {
 
     newRow.innerHTML = `
         <td>${getCurrentDate()}</td>
-        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)"></td>
-        <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)"></td>
+        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)" style="text-align: center;"></td>
+        <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" oninput="updateDuration(this)" style="text-align: center;"></td>
         <td class="duration"></td>
-        <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)"></td>
+        <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td>
             <input type="text" placeholder="Task 1">
         </td>

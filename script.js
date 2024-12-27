@@ -103,20 +103,35 @@ function handleTaskBlur(event) {
     const cell = input.parentElement;
     if (value) {
         const taskText = document.createElement("span");
-        taskText.textContent = value;
+        taskText.textContent = `${cell.querySelectorAll("span").length + 1}. ${value}`;
         taskText.style.cursor = "pointer";
         taskText.onclick = () => makeTaskEditable(taskText);
 
         // Replace input with text
         cell.replaceChild(taskText, input);
+
+        // Update numbering for all tasks
+        updateTaskNumbers(cell);
     }
+}
+
+// Function to update task numbering within a cell
+function updateTaskNumbers(cell) {
+    const taskSpans = cell.querySelectorAll("span");
+    taskSpans.forEach((span, index) => {
+        const taskContent = span.textContent.split('. ').slice(1).join('. '); // Remove previous numbering
+        span.textContent = `${index + 1}. ${taskContent}`;
+    });
 }
 
 // Function to make a Task field editable
 function makeTaskEditable(taskText) {
     const input = document.createElement("input");
     input.type = "text";
-    input.value = taskText.textContent;
+
+    // Remove numbering for editing
+    const textWithoutNumber = taskText.textContent.split('. ').slice(1).join('. ');
+    input.value = textWithoutNumber;
     input.onblur = handleTaskBlur;
 
     // Replace text with input

@@ -95,6 +95,36 @@ function makeCellEditable(cell, currentValue) {
     input.focus();
 }
 
+// Function to handle Task input blur
+function handleTaskBlur(event) {
+    const input = event.target;
+    const value = input.value.trim();
+
+    const cell = input.parentElement;
+    if (value) {
+        const taskText = document.createElement("span");
+        taskText.textContent = value;
+        taskText.style.cursor = "pointer";
+        taskText.onclick = () => makeTaskEditable(taskText);
+
+        // Replace input with text
+        cell.replaceChild(taskText, input);
+    }
+}
+
+// Function to make a Task field editable
+function makeTaskEditable(taskText) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = taskText.textContent;
+    input.onblur = handleTaskBlur;
+
+    // Replace text with input
+    const cell = taskText.parentElement;
+    cell.replaceChild(input, taskText);
+    input.focus();
+}
+
 // Function to add a new row to the table
 function addRow() {
     const tableBody = document.getElementById("eodTableBody");
@@ -107,14 +137,14 @@ function addRow() {
         <td class="duration"></td>
         <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td>
-            <input type="text" placeholder="Task 1">
+            <input type="text" placeholder="Task 1" onblur="handleTaskBlur(event)">
         </td>
     `;
 
     tableBody.appendChild(newRow);
 }
 
-// Function to add a new task to the current row
+// Updated addTask function
 function addTask() {
     const tableBody = document.getElementById("eodTableBody");
     const lastRow = tableBody.lastElementChild;
@@ -125,14 +155,17 @@ function addTask() {
     }
 
     const tasksCell = lastRow.querySelector("td:last-child");
-    const taskCount = tasksCell.querySelectorAll("input").length + 1;
+    const taskCount = tasksCell.querySelectorAll("span, input").length + 1;
 
-    const newTask = document.createElement("input");
-    newTask.type = "text";
-    newTask.placeholder = `Task ${taskCount}`;
+    const taskInput = document.createElement("input");
+    taskInput.type = "text";
+    taskInput.placeholder = `Task ${taskCount}`;
+    taskInput.onblur = handleTaskBlur;
 
-    tasksCell.appendChild(document.createElement("br"));
-    tasksCell.appendChild(newTask);
+    tasksCell.appendChild(document.createElement("br")); // Add a line break for the new task
+    tasksCell.appendChild(taskInput);
+
+    taskInput.focus(); // Immediately focus the new input
 }
 
 // Function to update duration based on start and end times

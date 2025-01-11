@@ -145,18 +145,13 @@ function addRow() {
     const tableBody = document.getElementById("eodTableBody");
     const newRow = document.createElement("tr");
 
-    // Get the "End Time" of the last row, if any
-    let lastEndTime = "";
+    // Get the last row's End Time
     const lastRow = tableBody.lastElementChild;
-    if (lastRow) {
-        const lastEndTimeCell = lastRow.querySelector("td:nth-child(3)");
-        lastEndTime = lastEndTimeCell ? lastEndTimeCell.textContent.trim() : "";
-    }
+    const lastEndTime = lastRow ? lastRow.querySelector("td:nth-child(3)").textContent.trim() : "";
 
-    // Create the new row with the "Start Time" pre-filled
     newRow.innerHTML = `
         <td>${getCurrentDate()}</td>
-        <td><input type="text" placeholder="Start Time (HH:MM)" value="${lastEndTime}" onblur="handleInputBlur(event)" style="text-align: center;"></td>
+        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;" value="${lastEndTime}"></td>
         <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td class="duration"></td>
         <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)" style="text-align: center;"></td>
@@ -201,7 +196,27 @@ function updateDuration(row) {
     durationCell.textContent = calculateDuration(startTime, endTime);
 }
 
-// Add one row on page load
+// Function to toggle Dark Mode
+function toggleDarkMode() {
+    const body = document.body;
+    const darkModeEnabled = body.classList.toggle("dark-mode");
+
+    // Save user preference in localStorage
+    localStorage.setItem("darkMode", darkModeEnabled ? "enabled" : "disabled");
+
+    // Update button text based on the mode
+    const darkModeButton = document.getElementById("darkModeButton");
+    darkModeButton.textContent = darkModeEnabled ? "Light Mode" : "Dark Mode";
+}
+
+// Apply saved theme preference on page load
 window.onload = () => {
-    addRow();
+    addRow(); // Add initial row
+
+    // Check saved dark mode preference
+    const savedDarkMode = localStorage.getItem("darkMode");
+    if (savedDarkMode === "enabled") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("darkModeButton").textContent = "Light Mode";
+    }
 };

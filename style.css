@@ -1,6 +1,10 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background-color: #f9f9f9; /* Light mode background */
+    color: #333; /* Light mode text color */
+    transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
@@ -18,10 +22,12 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid #ccc;
 }
 
 th, td {
@@ -34,4 +40,52 @@ input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Button Styles */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+    background-color: #121212; /* Dark mode background */
+    color: #e0e0e0; /* Dark mode text color */
+}
+
+body.dark-mode table {
+    background-color: #1e1e1e;
+    border: 1px solid #444;
+}
+
+body.dark-mode th, 
+body.dark-mode td {
+    border: 1px solid #444;
+}
+
+body.dark-mode input[type="text"] {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+body.dark-mode button {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode button:hover {
+    background-color: #666;
 }

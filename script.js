@@ -145,9 +145,18 @@ function addRow() {
     const tableBody = document.getElementById("eodTableBody");
     const newRow = document.createElement("tr");
 
+    // Get the "End Time" of the last row, if any
+    let lastEndTime = "";
+    const lastRow = tableBody.lastElementChild;
+    if (lastRow) {
+        const lastEndTimeCell = lastRow.querySelector("td:nth-child(3)");
+        lastEndTime = lastEndTimeCell ? lastEndTimeCell.textContent.trim() : "";
+    }
+
+    // Create the new row with the "Start Time" pre-filled
     newRow.innerHTML = `
         <td>${getCurrentDate()}</td>
-        <td><input type="text" placeholder="Start Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;"></td>
+        <td><input type="text" placeholder="Start Time (HH:MM)" value="${lastEndTime}" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td><input type="text" placeholder="End Time (HH:MM)" onblur="handleInputBlur(event)" style="text-align: center;"></td>
         <td class="duration"></td>
         <td><input type="text" placeholder="Project" onblur="handleInputBlur(event)" style="text-align: center;"></td>

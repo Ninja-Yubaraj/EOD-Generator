@@ -39,6 +39,7 @@ input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Button Styles */
@@ -50,7 +51,6 @@ button {
     color: white;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s;
 }
 
 button:hover {

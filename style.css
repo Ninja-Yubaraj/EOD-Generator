@@ -39,7 +39,6 @@ input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Button Styles */

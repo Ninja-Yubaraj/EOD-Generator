@@ -4,7 +4,6 @@ body {
     margin: 20px;
     background-color: #f9f9f9; /* Light mode background */
     color: #333; /* Light mode text color */
-    transition: background-color 0.3s, color 0.3s;
 }
 
 h1 {
@@ -40,7 +39,6 @@ input[type="text"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Button Styles */

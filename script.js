@@ -187,6 +187,17 @@ function addTask() {
     taskInput.focus(); // Immediately focus the new input
 }
 
+// Function to delete the last row
+function deleteRow() {
+    const tableBody = document.getElementById("eodTableBody");
+    if (tableBody.lastElementChild) {
+        tableBody.removeChild(tableBody.lastElementChild);
+        showConfirmation("Last row deleted!");
+    } else {
+        showConfirmation("No rows to delete!", true);
+    }
+}
+
 // Function to update duration based on start and end times
 function updateDuration(row) {
     const startTime = row.querySelector("td:nth-child(2)").textContent.trim();
@@ -207,6 +218,12 @@ function toggleDarkMode() {
     // Update button text based on the mode
     const darkModeButton = document.getElementById("darkModeButton");
     darkModeButton.textContent = darkModeEnabled ? "Light Mode" : "Dark Mode";
+}
+
+// Function to toggle the heading between "EOD" and "SOD"
+function toggleEOD() {
+    const heading = document.querySelector("h1");
+    heading.textContent = heading.textContent === "EOD" ? "SOD" : "EOD";
 }
 
 // Apply saved theme preference on page load
